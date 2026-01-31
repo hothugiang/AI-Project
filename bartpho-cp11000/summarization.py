@@ -11,13 +11,13 @@ from transformers import AutoModel, AutoModelForSeq2SeqLM, AutoTokenizer
 from underthesea import sent_tokenize, word_tokenize
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-abstract_model_path = "/content/drive/MyDrive/CHDG_inference/bartpho-cp11000"
-abstract_tokenizer_path = "/content/drive/MyDrive/CHDG_inference/bartpho-tokenizer"
-stopword_path = "/content/drive/MyDrive/CHDG_inference/stopwords.txt"
-LDA_model_path = "/content/drive/MyDrive/CHDG_inference/LDA_models.pkl"
-extractive_model_path = "/content/drive/MyDrive/CHDG_inference/e_25_0.3071.mdl"
-contrastive_model_path = "/content/drive/MyDrive/CHDG_inference/c_25_0.3071.mdl"
-with open('/content/drive/MyDrive/CHDG_inference/dict_map.json', 'r', encoding='utf-8') as f:
+abstract_model_path = "bartpho-cp11000"
+abstract_tokenizer_path = "bartpho-tokenizer"
+stopword_path = "vietnamese-stopwords-dash.txt"
+LDA_model_path = "LDA_models.pkl"
+extractive_model_path = "e_25_0.3071.mdl"
+contrastive_model_path = "c_25_0.3071.mdl"
+with open('dict_map.json', 'r', encoding='utf-8') as f:
     dict_map = json.load(f)
 
 phobert = AutoModel.from_pretrained("vinai/phobert-base-v2").to(device)

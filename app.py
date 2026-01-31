@@ -11,7 +11,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-from api.summarization import MultiDocSummarizationAPI
+from summarization import MultiDocSummarizationAPI
 import fitz  
 from docx import Document 
 
@@ -102,23 +102,23 @@ with col1:
 
                 texts.append(all_texts)
 
-    st.markdown("### 🎯 Nhập tóm tắt mẫu")
-    golden_ext = st.text_area("📑 Tóm tắt tóm lược", height=100)
-    golden_abs = st.text_area("📝 Tóm tắt trích rút", height=100)
+    # st.markdown("### 🎯 Nhập tóm tắt mẫu")
+    # golden_ext = st.text_area("📑 Tóm tắt tóm lược", height=100)
+    # golden_abs = st.text_area("📝 Tóm tắt trích rút", height=100)
 
     
 with col2:
     st.markdown("### ⚙️ Tuỳ chọn tóm tắt")
-    summary_method = st.selectbox("Chọn phương thức rút gọn:", ["Tỷ lệ", "Số câu"])
+    summary_method = st.selectbox("Chọn phương thức rút gọn:", ["Số câu", "Tỷ lệ"])
 
     if summary_method == "Tỷ lệ":
-        compress_ratio = st.slider("🔽 Chọn tỷ lệ rút gọn:", 0, 50, 30, step=1, format="%d%%") / 100
+        compress_ratio = st.slider("🔽 Chọn tỷ lệ rút gọn:", 0, 50, 15, step=1, format="%d%%") / 100
     else:
         compress_ratio = st.number_input("🔢 Số câu đầu ra:", min_value=1, max_value=20, value=5, step=1)
 
     if st.button("🚀 Tóm tắt") and any(texts):
         summary_results = MultiDocSummarizationAPI(
-            texts, compress_ratio, golden_ext=golden_ext or None, golden_abs=golden_abs or None
+            texts, compress_ratio#, golden_ext=golden_ext or None, golden_abs=golden_abs or None
         )
         st.session_state.extractive_summary = summary_results.get("extractive_summ", "Không có kết quả")
         st.session_state.abstractive_summary = summary_results.get("abstractive_summ", "Không có kết quả")
@@ -134,14 +134,14 @@ if st.session_state.get("show_summary", False):
 
     with col_summary[0]:
         st.markdown("### 📑 Tóm tắt tóm lược")
-        st.markdown(f"**🔹 ROUGE 1:** {rouge_ext[0]}")
-        st.markdown(f"**🔹 ROUGE 2:** {rouge_ext[1]}")
-        st.markdown(f"**🔹 ROUGE L:** {rouge_ext[2]}")
+        # st.markdown(f"**🔹 ROUGE 1:** {rouge_ext[0]}")
+        # st.markdown(f"**🔹 ROUGE 2:** {rouge_ext[1]}")
+        # st.markdown(f"**🔹 ROUGE L:** {rouge_ext[2]}")
         st.text_area("📑 Tóm tắt trích lược:", st.session_state.extractive_summary, height=250)
 
-    with col_summary[1]:
-        st.markdown("### 📝 Tóm tắt trích rút")
-        st.markdown(f"**🔹 ROUGE 1:** {rouge_abs[0]}")
-        st.markdown(f"**🔹 ROUGE 2:** {rouge_abs[1]}")
-        st.markdown(f"**🔹 ROUGE L:** {rouge_abs[2]}")
-        st.text_area("Văn bản tóm tắt trích rút:", st.session_state.abstractive_summary, height=250)
+    # with col_summary[1]:
+    #     st.markdown("### 📝 Tóm tắt trích rút")
+    #     st.markdown(f"**🔹 ROUGE 1:** {rouge_abs[0]}")
+    #     st.markdown(f"**🔹 ROUGE 2:** {rouge_abs[1]}")
+    #     st.markdown(f"**🔹 ROUGE L:** {rouge_abs[2]}")
+    #     st.text_area("Văn bản tóm tắt trích rút:", st.session_state.abstractive_summary, height=250)
