@@ -5,5 +5,8 @@ __pycache__/
 # Virtual environment
 venv/
 
+# Model / checkpoint
+checkpoint-2200/
+
 # OS
 .DS_Store

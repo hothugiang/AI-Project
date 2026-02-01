@@ -12,6 +12,7 @@ from underthesea import sent_tokenize, word_tokenize
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 abstract_tokenizer_path = "vinai/bartpho-syllable-base"
 abstract_model_path = "./checkpoint-2200"
+# abstract_model_path = "htg2501/Checkpoint-2200"
 extractive_model_path = "./e_25_0.3071.mdl"
 contrastive_model_path = "./c_25_0.3071.mdl"
 

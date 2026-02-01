@@ -1,5 +1,4 @@
 {
-  "_name_or_path": "vinai/bartpho-syllable-base",
   "activation_dropout": 0.0,
   "activation_function": "gelu",
   "architectures": [
@@ -31,7 +30,7 @@
   "scale_embedding": false,
   "tokenizer_class": "BartphoTokenizer",
   "torch_dtype": "float32",
-  "transformers_version": "4.28.1",
+  "transformers_version": "4.50.3",
   "use_cache": true,
   "vocab_size": 40030
 }

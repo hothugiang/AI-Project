@@ -11,11 +11,16 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-from summarization import MultiDocSummarizationAPI
+
 import fitz  
 from docx import Document 
 
 # Cấu hình tiêu đề trang ngay từ đầu
+
+@st.cache_resource
+def get_summarizer():
+    from summarization import MultiDocSummarizationAPI
+    return MultiDocSummarizationAPI
 
 
 # Ẩn footer "Made with Streamlit"
@@ -80,7 +85,7 @@ with col1:
                 with col_expander[1]:
                     if st.button("🗑", key=f"delete_{i}", help="Xóa văn bản"):
                         remove_text_area(i)
-                        st.experimental_rerun()
+                        # st.experimental_rerun()
             texts.append(st.session_state.additional_texts[i])
 
     else:
@@ -117,15 +122,16 @@ with col2:
         compress_ratio = st.number_input("🔢 Số câu đầu ra:", min_value=1, max_value=20, value=5, step=1)
 
     if st.button("🚀 Tóm tắt") and any(texts):
-        summary_results = MultiDocSummarizationAPI(
-            texts, compress_ratio#, golden_ext=golden_ext or None, golden_abs=golden_abs or None
-        )
+        with st.spinner("⏳ Đang tóm tắt..."):
+            summarizer = get_summarizer()
+            summary_results = summarizer(texts, compress_ratio)
+        
         st.session_state.extractive_summary = summary_results.get("extractive_summ", "Không có kết quả")
         st.session_state.abstractive_summary = summary_results.get("abstractive_summ", "Không có kết quả")
         st.session_state.rouge_ext = summary_results.get("score_ext", ("None", "None", "None"))
         st.session_state.rouge_abs = summary_results.get("score_abs", ("None", "None", "None"))
         st.session_state.show_summary = True
-        st.experimental_rerun()
+        # st.experimental_rerun()
 
 if st.session_state.get("show_summary", False):
     col_summary = st.columns(2)
